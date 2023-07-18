@@ -1,0 +1,14 @@
+.navbar{
+padding: 10px;
+margin-bottom: 23px;
+}
+
+.zoom-effect:hover {
+  transform: scale(1.02); /* Увеличивает размер элемента на 10% */
+}
+
+.zoom-effect{
+transition: transform .7s ease}
+
+
+

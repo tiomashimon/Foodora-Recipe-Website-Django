@@ -1,0 +1,159 @@
+{% extends 'food/base.html' %}
+
+{% block body %}
+<style>
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination {
+        text-align: center;
+    }
+
+    .pagination-link {
+        display: inline-block;
+        padding: 8px 12px;
+        text-decoration: none;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 4px;
+        margin-right: 5px;
+    }
+
+    .current-page {
+        display: inline-block;
+        padding: 8px 12px;
+        background-color: #333;
+        color: #fff;
+        border-radius: 4px;
+        margin-right: 5px;
+    }
+
+    .search-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .search-form {
+        display: flex;
+        align-items: center;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        padding: 8px;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .search-input {
+        border-radius: 4px;
+        flex: 1;
+        border: 2px solid grey;
+        padding: 8px;
+        margin-right: 8px;
+        max-width: 100%;
+    }
+
+    .search-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .not-found-message {
+        text-align: center;
+        margin-top: 20px;
+
+     }
+    .tag-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 8px;
+
+
+    .tag {
+        background-color: #f1f1f1;
+        color: #333;
+        border-radius: 4px;
+        padding: 2px 6px;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        font-size: 12px;
+    }
+    }
+</style>
+
+<!-- Добавление формы поиска -->
+<div class="search-container">
+    <form class="search-form" action="{% url 'food' %}" method="GET">
+        <input type="text" name="food_name" class="search-input form-control" placeholder="Search..." value="{{ food_request_text }}">
+        <button type="submit" class="search-button btn btn-primary">Search</button>
+    </form>
+</div>
+
+<div class="container">
+    <div class="row">
+        {% if food %}
+        {% for item in food %}
+        <div class="col-md-4 mt-4">
+            <div class="card mb-3 zoom-effect">
+                <a href="{{ item.link }}"><img src="{{ item.image }}" class="card-img-top img-fluid" alt=""
+                     style="height: 300px; object-fit: cover;"></a>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <div class="card-description">
+                        <p class="card-text">{{ item.description|truncatechars:150 }}</p>
+                    </div>
+                     <div class="tag-container">
+                                {% for tag in item.tags %}
+                                <span class="tag">{{ tag }}</span>
+                                {% endfor %}
+                     </div>
+                    <p class="card-text"><strong>Time:</strong> {{ item.time }} min</p>
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-end">
+                            <div>
+                                <a href="{% url 'detail' item.id %}" class="btn btn-primary">Details</a>
+                            </div>
+                            <div>
+                                <p class="card-text text-right"><strong>Author:</strong> {{ item.user }}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col-12">
+            {% if food_request_text %}
+            <p class="not-found-message">No results found for "{{ food_request_text }}".</p>
+            {% else %}
+            <p class="not-found-message">No results found.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Добавление стилизованных ссылок на страницы -->
+    <div class="pagination-container">
+        <div class="pagination">
+            {% if food.has_previous %}
+                <a href="?page={{ food.previous_page_number }}" class="pagination-link">Back</a>
+            {% endif %}
+
+            <span class="current-page">{{ food.number }}</span>
+
+            {% if food.has_next %}
+                <a href="?page={{ food.next_page_number }}" class="pagination-link">Next</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

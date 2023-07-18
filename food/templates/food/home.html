@@ -1,0 +1,17 @@
+{% extends 'food/base.html' %}
+
+{% block body %}
+<!-- Site Description Section -->
+<section class="site-description" style="margin-top: 100px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h2>Welcome to Foodora!</h2>
+                <p>Foodora is an online platform where you can find over {{ num_of_items }} recipes for various dishes. We have recipes for every taste, from classic to exotic.</p>
+                <p>You can also become part of our community by adding your own recipes and sharing them with other members.</p>
+                <a href="{% url 'food' %}" class="btn btn-primary">Start Cooking!</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

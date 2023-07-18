@@ -1,0 +1,24 @@
+{% extends 'food/base.html' %}
+
+{% block body %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <form action="{% url 'edit' %}" method="POST" class="mt-4" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% if field.value %}
+              <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" name="{{ field.html_name }}" value="{{ field.value }}">
+            {% else %}
+              <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" name="{{ field.html_name }}">
+            {% endif %}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary mt-3">Save</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

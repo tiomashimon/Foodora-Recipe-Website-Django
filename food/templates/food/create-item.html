@@ -1,0 +1,32 @@
+{% extends 'food/base.html' %}
+
+{% block body %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <form action="" method="POST" class="mt-4">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% if field.name == 'tags' %}
+              <select class="form-control" id="{{ field.id_for_label }}" name="{{ field.html_name }}">
+                {% for value, display_text in field.field.choices %}
+                  {% if field.value == value %}
+                    <option value="{{ value }}" selected>{{ display_text }}</option>
+                  {% else %}
+                    <option value="{{ value }}">{{ display_text }}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+            {% else %}
+              <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" name="{{ field.html_name }}" {% if field.value %}value="{{ field.value }}"{% endif %}>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary mt-3">Save</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

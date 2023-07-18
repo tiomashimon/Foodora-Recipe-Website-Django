@@ -1,0 +1,40 @@
+{% extends 'food/base.html' %}
+
+{% block styles %}
+<style>
+    .rounded-image {
+        border-radius: 50%;
+    }
+
+
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container d-flex align-items-center justify-content-center vh-100">
+    <div class="col-md-6 text-center">
+        <a href="{{ item.link }}"><img src="{{ item.image }}" class="img-fluid rounded-image" alt=""
+                                       style="border-radius: 50px; height: 500px; object-fit: contain;"></a>
+        <div class="mt-5">
+            <h1 class="display-4">{{ item.name }}</h1>
+            <p class="lead">{{ item.description }}</p>
+            <p class="lead">Time to preparation: {{ item.time }}</p>
+            <a href="{% url 'food' %}">
+                <button class="btn btn-primary btn-lg">Back</button>
+            </a>
+            {% if user.is_authenticated and item.user.username == user.username %}
+            <a href="{% url 'edit_item' item.id %}" style="text-decoration: none;">
+                <button class="btn edit-button">
+                    Edit
+                </button>
+            </a>
+            <a href="{% url 'delete_item' item.id %}">
+                <button class="btn btn-danger btn-lg">Delete</button>
+            </a>
+            {% endif %}
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}
