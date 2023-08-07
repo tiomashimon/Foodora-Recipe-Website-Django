@@ -11,5 +11,5 @@ urlpatterns = [
     path('add/', login_required(views.create_item), name='create_item'),
     path('edit/<int:id>/', login_required(views.edit_item), name='edit_item'),
     path('delete/<int:id>/', login_required(views.delete_item), name='delete_item'),
-    path('rating/', login_required(views.rating), name='rating'),
+    path('rating/', views.rating, name='rating'),
 ]
